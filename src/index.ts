@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-app.use('/insights', insightsRouter)//     const paragraphs = req.body.htmlContent as string[];
+app.use('/insights', insightsRouter)
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
