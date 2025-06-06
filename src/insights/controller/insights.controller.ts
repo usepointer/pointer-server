@@ -13,7 +13,7 @@ export class InsightsController {
         const { data, success, error } = InsightsRequest.safeParse(req.body);
 
         if (!success) {
-            res.status(400).send(z.prettifyError(error));
+            res.status(400).send(z.flattenError(error).fieldErrors);
             return;
         }
 
