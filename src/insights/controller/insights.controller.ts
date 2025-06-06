@@ -2,19 +2,24 @@ import { Request, Response } from "express";
 import { InsightsFlow } from "../flow/insights-flow";
 import { Stream } from "openai/core/streaming";
 import { ResponseStreamEvent } from "openai/resources/responses/responses";
+import { InsightsRequest } from "../dto/insights.request";
+import { z } from "zod/v4";
 
 export class InsightsController {
     constructor(private readonly insightsFlow: InsightsFlow) {
 
     }
     async getInsights(req: Request, res: Response): Promise<void> {
-        const contents = req.body.htmlContent as string[];
-        const customPrompt = req.body.customPrompt as string || '';
-        if (!contents.length) {
-            res.status(400).send({ error: 'HTML content is required' });
+        const { data, success, error } = InsightsRequest.safeParse(req.body);
+
+        if (!success) {
+            res.status(400).send(z.prettifyError(error));
             return;
         }
+
         this.setSSEHeaders(res)
+
+        const { htmlContent: contents, customPrompt } = data;
         const responseStream = await this.insightsFlow.getInsights(contents, customPrompt);
         await this.streamData(res, responseStream);
     }
