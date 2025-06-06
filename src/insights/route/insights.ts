@@ -9,4 +9,4 @@ const insightsFlow = new InsightsFlow(openai);
 const insightsController = new InsightsController(insightsFlow)
 router.post('/', insightsController.getInsights.bind(insightsController))
 
-export default router;
+export const insightsRouter = router;

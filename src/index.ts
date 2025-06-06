@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import insightsRouter from './insights/route/insights';
+import { insightsRouter } from './insights';
 
 const app = express();
 
