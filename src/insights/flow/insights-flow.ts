@@ -7,9 +7,9 @@ import { defaultPrompt } from "../prompts/default.prompt";
 export class InsightsFlow {
     constructor(private readonly openai: OpenAI) { }
     async getInsights(contents: string[], customPrompt?: string): Promise<Stream<ResponseStreamEvent>> {
-
+        
         const responseStream = await this.openai.responses.create({
-            model: "gpt-4.1",
+            model: "gpt-4.1-mini",
             instructions: handlebars.compile(defaultPrompt)({ customPrompt }),
             input: JSON.stringify(contents),
             stream: true

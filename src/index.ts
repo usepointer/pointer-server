@@ -6,7 +6,7 @@ import { insightsRouter } from './insights';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '1mb'}));
 
 
 app.use('/insights', insightsRouter)

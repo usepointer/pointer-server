@@ -12,6 +12,11 @@ export const defaultPrompt = `
         ### Output Format:
         The output should be markdown format, please don't include the prefix of \`\`\`markdown\`\`\` in your response."
 
+        ### Important Notes:
+        - Each response should have a title that summarizes the main theme of the content.
+        - Use bullet points for key insights where applicable.
+        - Use as many markdown features as possible to enhance readability.
+
         ### Additional Instructions:
         In some cases a custom-promt will be provided, if so, please use it to guide your response.
         Custom prompt: {{customPrompt}}
