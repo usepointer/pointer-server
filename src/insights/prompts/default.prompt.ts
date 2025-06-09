@@ -19,6 +19,6 @@ export const defaultPrompt = `
 
         ### Important Notes:
         - Each response should have a title that summarizes the main theme of the content.
-        - Use bullet points where applicable.
-        - Use as many markdown features as possible to enhance readability.      
+        - Use as many markdown features as possible to enhance readability.
+        - Add icons to enhance the visual appeal of the summary.      
         `
