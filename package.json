@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon --watch 'src/**/*.ts' --exec node -r dotenv/config -r ts-node/register src/index.ts",
-    "deploy": "chmod +x deployment/deploy-droplet.sh && ./deployment/deploy-droplet.sh"
+    "start":"node -r dotenv/config -r ts-node/register src/index.ts",
+    "deploy": "chmod +x deployment/deploy-pointer.sh && chmod +x deployment/start-pointer.sh && ./deployment/deploy-pointer.sh && ./deployment/start-pointer.sh"
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
