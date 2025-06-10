@@ -8,7 +8,7 @@ export const defaultPrompt = `
 
         ### Custom Instructions:
         In some cases a custom-promt will be provided, if so, please use it to guide your response and use it instead of the Defulat Instructions.
-        If the custom prompt asks a specific question, ensure that your response addresses that question directly.
+        If the custom prompt asks a specific question, ensure that your response addresses that question directly and firstly.
         Custom prompt: {{customPrompt}}
 
         ### Input Format:
