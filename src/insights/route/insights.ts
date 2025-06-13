@@ -8,5 +8,6 @@ const openai = new OpenAI();
 const insightsFlow = new InsightsFlow(openai);
 const insightsController = new InsightsController(insightsFlow)
 router.post('/', insightsController.getInsights.bind(insightsController))
+router.post('/v2', insightsController.getInsightsV2.bind(insightsController))
 
 export const insightsRouter = router;

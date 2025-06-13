@@ -24,6 +24,21 @@ export class InsightsController {
         await this.streamData(res, responseStream);
     }
 
+    async getInsightsV2(req: Request, res: Response): Promise<void> {
+        const { data, success, error } = InsightsRequest.safeParse(req.body);
+
+        if (!success) {
+            res.status(400).send(z.flattenError(error).fieldErrors);
+            return;
+        }
+
+        this.setSSEHeaders(res)
+
+        const { htmlContent: contents, customPrompt, visibleView } = data;
+        const responseStream = await this.insightsFlow.getInsightsV2(contents, visibleView || '', customPrompt);
+        await this.streamData(res, responseStream);
+    }
+
     private setSSEHeaders(res: Response): void {
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
@@ -32,6 +47,10 @@ export class InsightsController {
 
     private writeDataToStream(res: Response, data: string): void {
         res.write(`data: ${JSON.stringify({ v: data })}\n\n`)
+    }
+
+    private writeToolCallToStream(res: Response, toolCall: { name: string; arguments: any, callId: string }): void {
+        res.write(`tool_call: ${JSON.stringify(toolCall)}\n\n`);
     }
 
     private endStream(res: Response): void {
@@ -43,6 +62,7 @@ export class InsightsController {
         const deltaEvent = 'response.output_text.delta';
         const maxChunkLength = 50; // Maximum size of each chunk to send
         let currentChunk = '';
+        let currentToolCall = '';
         for await (const chunk of stream) {
             if (chunk.type === deltaEvent) {
                 currentChunk += chunk.delta;
@@ -50,6 +70,8 @@ export class InsightsController {
                     this.writeDataToStream(res, currentChunk);
                     currentChunk = '';
                 }
+            } else if (chunk.type === 'response.output_item.done' && chunk.item.type === 'function_call') {
+                this.writeToolCallToStream(res, { name: chunk.item.name, arguments: JSON.parse(chunk.item.arguments), callId: chunk.item.call_id });
             }
         }
         if (currentChunk.length > 0) {
