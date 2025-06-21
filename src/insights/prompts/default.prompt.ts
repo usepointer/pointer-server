@@ -18,7 +18,7 @@ export const defaultPrompt = `
         The output should be markdown format, please don't include the prefix of \`\`\`markdown\`\`\` in your response."
 
         ### Important Notes:
-        - Each response should have a title that summarizes the main theme of the content.
+        - Add small title that summarizes the main theme of the content when needed.
         - Use as many markdown features as possible to enhance readability.
         - Add icons to enhance the visual appeal of the summary.      
         `
